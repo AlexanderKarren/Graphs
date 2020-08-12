@@ -1,4 +1,5 @@
 import random
+from queue import Queue
 
 class User:
     def __init__(self, name):
@@ -80,8 +81,26 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
+        q = []
+        q.insert(0, [user_id])
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        
+        while len(q) > 0:
+            # print(q)
+            path = q.pop()
+
+            user = path[-1]
+
+            if user not in visited:
+                visited.update({user: path})
+
+                for friend in self.friendships.get(user):
+                    new_path = path.copy()
+
+                    new_path.append(friend)
+
+                    q.insert(0, new_path)
+
         return visited
 
 
